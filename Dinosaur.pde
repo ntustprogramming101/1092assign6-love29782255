@@ -15,7 +15,7 @@ class Dinosaur extends Enemy {
     pushMatrix();
     translate(x, y);
     if (direction == 1) {
-      scale(1, 1);
+      scale(1 , 1);
       image(dinosaur, 0, 0);
     } else if (direction == -1) {
       scale(-1, 1);
@@ -25,15 +25,17 @@ class Dinosaur extends Enemy {
   }
 
   void update() {
+    boolean isDetected = false;
     if (player.y == this.y) {
-      if (direction == 1 && player.x > this.x) speed *= TRIGGERED_SPEED_MULTIPLIER;
-      if (direction == -1 && player.x < this.x) speed *= TRIGGERED_SPEED_MULTIPLIER;
+      if ((direction == 1 && player.x > this.x)||(direction == -1 && player.x < this.x) ) isDetected = true;
+      if(isDetected) speed *= TRIGGERED_SPEED_MULTIPLIER;
     } 
     if (x > width-this.w || x <= 0) speed *= -1;
     x += speed;
-    println(direction);
+    //println(direction);
   }
-
+  
+/*
   void checkCollision(Player player) {
     if (isHit(this.x, this.y, this.w, this.h, player.x, player.y, player.w, player.h)) {
       player.hurt();
@@ -41,7 +43,7 @@ class Dinosaur extends Enemy {
       if (direction == -1) speed = -1f;
     }
   }
-
+*/
 
   // HINT: Player Detection in update()
   /*
