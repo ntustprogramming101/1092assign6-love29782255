@@ -4,6 +4,7 @@ class Robot extends Enemy {
   boolean isDetected = false;
   boolean laserOn = false;
   int laserTimer =0;
+
   float A;
   float B;
   float C;
@@ -20,17 +21,19 @@ class Robot extends Enemy {
 
   Robot(float x, float y) {
     super(x, y);
+    laser = new Laser();
   }
 
-  void update() {
-    if (x >= width-this.w || x <= 0) direction *= -1 ;
-    laser = new Laser();
-
+  void isDetected() {
     if ( player.y > this.y - 3 * SOIL_SIZE && player.y < this.y +  3 * SOIL_SIZE) { 
       if ( (direction == 1 && player.x > this.x) || (direction == -1 && player.x < this.x) ) 
         isDetected = true;
     } else isDetected = false;
+  }
 
+  void update() {
+    if (x >= width-this.w || x <= 0) direction *= -1 ;
+    isDetected();
     currentSpeed = speed;
 
     if (isDetected == true) {
@@ -42,6 +45,7 @@ class Robot extends Enemy {
       speed = currentSpeed;
       if (x > width-this.w || x <= 0) speed *= -1;
       x += speed;
+      laserOn = false;
     }
 
     if (laserOn) { 
@@ -50,9 +54,9 @@ class Robot extends Enemy {
         B = this.y;
         C = player.x;
         D = player.y;
-        println("shot");
+        laserShot(A, B, C, D);
       }
-      laserShot(A, B, C, D);
+      //println("shot"+laserTimer);
       laser.update();
       laserTimer += 1;
       laserTimer %= 180;
@@ -60,7 +64,6 @@ class Robot extends Enemy {
   }
 
   void laserShot(float a, float b, float c, float d) {
-    
     if (direction == 1) { 
       laser.fire(a + HAND_OFFSET_X_FORWARD, b + HAND_OFFSET_Y, c + w/2, d + h/2);
     } else { 
@@ -83,6 +86,13 @@ class Robot extends Enemy {
     }
     popMatrix();
     if (laserOn) laser.display();
+  }
+
+  void checkCollision(Player player) {
+
+    super.checkCollision(player);
+    laser.checkCollision(player);
+    //if(player.health == player.health -1) laserOn = false;
   }
 
 
