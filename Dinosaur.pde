@@ -18,14 +18,15 @@ class Dinosaur extends Enemy {
     //float currentSpeed = speed;
     if (player.y == this.y) {
       if ((direction == 1 && player.x > this.x)||(direction == -1 && player.x < this.x) ) isDetected = true;
-      if (isDetected) {
+    } else isDetected = false;
+    
+    if (isDetected) {
         if (direction == 1) speed = 5f;
         if (direction == -1) speed = -5f;
       } else {
         if (direction == 1) speed = 1f;
         if (direction == -1) speed = -1f;
       }
-    } 
     //if (x > width-this.w || x <= 0) speed *= -1;
     x += speed;
   }
