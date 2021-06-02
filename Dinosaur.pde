@@ -10,12 +10,32 @@ class Dinosaur extends Enemy {
   }
 
 
-  void display() {
+  void update() {
+    int oriDirection = direction;
     if (x >= width-this.w || x <= 0) direction *= -1 ;
+    if (oriDirection * direction == -1) speed *= -1;
+    boolean isDetected = false;
+    //float currentSpeed = speed;
+    if (player.y == this.y) {
+      if ((direction == 1 && player.x > this.x)||(direction == -1 && player.x < this.x) ) isDetected = true;
+      if (isDetected) {
+        if (direction == 1) speed = 5f;
+        if (direction == -1) speed = -5f;
+      } else {
+        if (direction == 1) speed = 1f;
+        if (direction == -1) speed = -1f;
+      }
+    } 
+    //if (x > width-this.w || x <= 0) speed *= -1;
+    x += speed;
+  }
+  
+  
+  void display() {
     pushMatrix();
     translate(x, y);
     if (direction == 1) {
-      scale(1 , 1);
+      scale(1, 1);
       image(dinosaur, 0, 0);
     } else if (direction == -1) {
       scale(-1, 1);
@@ -24,26 +44,10 @@ class Dinosaur extends Enemy {
     popMatrix();
   }
 
-  void update() {
-    boolean isDetected = false;
-    if (player.y == this.y) {
-      if ((direction == 1 && player.x > this.x)||(direction == -1 && player.x < this.x) ) isDetected = true;
-      if(isDetected) speed *= TRIGGERED_SPEED_MULTIPLIER;
-    } 
-    if (x > width-this.w || x <= 0) speed *= -1;
-    x += speed;
-    //println(direction);
-  }
-  
-/*
-  void checkCollision(Player player) {
-    if (isHit(this.x, this.y, this.w, this.h, player.x, player.y, player.w, player.h)) {
-      player.hurt();
-      if (direction == 1) speed = 1f;
-      if (direction == -1) speed = -1f;
-    }
-  }
-*/
+  /*void checkCollision(Player player) {
+   super.checkCollision(player);
+   }*/
+
 
   // HINT: Player Detection in update()
   /*
