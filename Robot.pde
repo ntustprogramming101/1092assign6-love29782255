@@ -24,7 +24,7 @@ class Robot extends Enemy {
     laser = new Laser();
   }
 
-  void isDetected() {
+  void detected() {
     if ( player.y > this.y - 3 * SOIL_SIZE && player.y < this.y +  3 * SOIL_SIZE) { 
       if ( (direction == 1 && player.x > this.x) || (direction == -1 && player.x < this.x) ) 
         isDetected = true;
@@ -33,7 +33,7 @@ class Robot extends Enemy {
 
   void update() {
     if (x >= width-this.w || x <= 0) direction *= -1 ;
-    isDetected();
+    detected();
     currentSpeed = speed;
 
     if (isDetected == true) {
