@@ -15,7 +15,7 @@ class Cabbage extends Item {
         && isHit(this.x, this.y, SOIL_SIZE, SOIL_SIZE, player.x, player.y, player.w, player.h)) {
 
         player.health ++;
-        this.x = this.y = -1000; // Now that they're objects, toggle isAlive instead of throwing them away from screen
+        isAlive = false; // Now that they're objects, toggle isAlive instead of throwing them away from screen
       }
     }
   }
