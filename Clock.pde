@@ -14,7 +14,7 @@ class Clock extends Item {
     if (isAlive) {
       if (isHit(this.x, this.y, SOIL_SIZE, SOIL_SIZE, player.x, player.y, player.w, player.h)) {
         addTime(CLOCK_BONUS_SECONDS);
-        this.x = this.y = -1000;
+        isAlive = false;
       }
     }
   }
